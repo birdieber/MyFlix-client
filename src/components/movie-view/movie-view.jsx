@@ -24,3 +24,5 @@ export const MovieView = ({ movie, onBackClick }) => {
       </div>
     );
   };
+
+  //adding similar movies later (ref 3.4 class)
