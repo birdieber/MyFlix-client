@@ -1,28 +1,34 @@
+//Change in MovieDetails
+import { Container, Button } from 'react-bootstrap';
+import  './movie-view.scss'
+
 export const MovieView = ({ movie, onBackClick }) => {
     return (
-      <div>
+      <Container>
+        <div  className='moviesheet bg-light rounded'>
         <div>
-          <img src={movie.image} width="30%" alt="movie image" />
+          <img src={movie.image} alt="movie image" className= "w-50 d-block mx-auto p-3"  />
         </div>
+        <div className='movietext p-3'>
         <div>
-          <span>Title: </span>
+          <span className="bold">Title: </span>
           <span>{movie.title}</span>
         </div>
         <div>
-          <span>Description: </span>
+          <span className="bold">Description: </span>
           <span>{movie.description}</span>
         </div>
         <div>
-          <span>Genre: </span>
-          <span>{movie.genre}</span>
+          <span className="bold" >Genre: </span>
+        <span>{movie.genre}</span>
         </div>
         <div>
-          <span>Director: </span>
+          <span className="bold">Director: </span>
           <span>{movie.director}</span>
+          </div>
         </div>
-        <button onClick={onBackClick}>Back</button>
-      </div>
+        <Button variant="danger" onClick={onBackClick} className="mt-3 rounded-0 rounded-bottom" style={{width: "100%"}}>Back</Button>
+        </div>
+      </Container>
     );
   };
-
-  //adding similar movies later (ref 3.4 class)
