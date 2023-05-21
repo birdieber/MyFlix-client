@@ -1,5 +1,6 @@
-$color: steelblue;
+$primary: #3e45bf;
+$body-bg: #293157;
+$card-bg: #242846;
+$card-color: #eaebf2;
 
-.my-flix {
-  color: $color;
-}
+@import '~bootstrap/scss/bootstrap.scss';

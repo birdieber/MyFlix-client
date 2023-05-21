@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import {Button, Form} from "react-bootstrap"
+
 
 export const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState("");
@@ -41,228 +43,33 @@ export const LoginView = ({ onLoggedIn }) => {
 
   // submit form login
   return (
-    <form onSubmit={handleSubmit}>
+  <Form onSubmit={handleSubmit} className="p-5 bg-light rounded">
       <h1>Log in:</h1>
-      <label>
+    <Form.Group controlId = "formUsername">
+      <Form.Label>
         Username:
-        <input
+        <Form.Control
           type="text"
           value={username}
-          minLength="5"
+          minLength="3"
           onChange={(e) => setUsername(e.target.value)}
           required
         />
-      </label>
-      <label>
+      </Form.Label>
+    </Form.Group>
+    <Form.Group controlId="formPassword">
+      <Form.Label>
         Password:
-        <input
+          <Form.Control
           type="password"
           value={password}
           minLength="5"
           onChange={(e) => setPassword(e.target.value)}
           required
-        />
-      </label>
-      <button type="submit">Submit</button>
-    </form>
+          />
+      </Form.Label>
+    </Form.Group>
+      <Button variant="primary"type="submit" className="mt-3">Submit</Button>
+    </Form>
   );
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
