@@ -1,12 +1,15 @@
 //Change in MovieDetails
 import React from "react";
+import PropTypes from "prop-types";
 import { Container, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import AddFavorite from "../add-favorite/add-favorite";
 
-export const MovieView = ({ movies }) => {
+// import { FaThumbsUp } from "react-icons/fa";
+
+export const MovieView = ({ movies, user, movieData, token }) => {
 	const { movieId } = useParams();
-
 	const movie = movies.find((b) => b.id === movieId);
 
 	return (
@@ -15,6 +18,27 @@ export const MovieView = ({ movies }) => {
 				className="moviesheet rounded"
 				style={{ background: "#242846", color: "#eaebf2" }}
 			>
+				<div className="buttons">
+					{/* Add a margin and a padding.
+					Display in columns
+					Back should be left and add fave right (or see if you can overlay on image)
+					*/}
+					<Link to={`/`}>
+						<Button
+							variant="danger"
+							className="mt-3"
+							style={{ width: "20%" }}
+						>
+							Back
+						</Button>
+					</Link>
+
+					<AddFavorite
+						user={user}
+						movieData={movie}
+						token={token}
+					/>
+				</div>
 				<div>
 					<img
 						src={movie.image}
@@ -41,9 +65,10 @@ export const MovieView = ({ movies }) => {
 					</div>
 				</div>
 				<Link to={`/`}>
+					{/* this is deleted if I change my mind and but it on top */}
 					<Button
 						variant="danger"
-						className="mt-3 rounded-0 rounded-bottom"
+						className="mt-3  rounded-0 rounded-bottom"
 						style={{ width: "100%" }}
 					>
 						Back

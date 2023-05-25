@@ -26,6 +26,12 @@ export const LoginView = ({ onLoggedIn }) => {
 			.then((response) => response.json())
 			.then((data) => {
 				console.log("Login response: ", data);
+				console.log(username);
+				console.log(password);
+				console.log(data.user.email);
+				console.log(data.user.birthday);
+				data.user.favoriteMovies.map((movie) => console.log(movie));
+
 				if (data.user) {
 					localStorage.setItem("user", JSON.stringify(data.user));
 					localStorage.setItem("token", data.token);

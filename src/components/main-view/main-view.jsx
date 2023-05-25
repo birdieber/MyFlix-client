@@ -4,6 +4,8 @@ import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
+import { ProfileView } from "../profile-view/profile-view";
+import AddFavorite from "../add-favorite/add-favorite";
 import "./main-view.scss";
 
 import Button from "react-bootstrap/Button";
@@ -20,7 +22,6 @@ export const MainView = () => {
 	const [user, setUser] = useState(storedUser ? storedUser : null);
 	const [token, setToken] = useState(storedToken ? storedToken : null);
 	const [movies, setMovies] = useState([]);
-	// const [selectedMovie, setSelectedMovie] = useState(null);
 
 	useEffect(() => {
 		if (!token) {
@@ -46,8 +47,7 @@ export const MainView = () => {
 				setMovies(moviesFromApi);
 			});
 	}, [token]);
-
-	// here should use row
+	// console.log("you" + storedToken);
 
 	return (
 		// wrapping all child components in a single row
@@ -69,7 +69,11 @@ export const MainView = () => {
 							element={
 								<>
 									{user ? (
-										<Navigate to="/" />
+										<Navigate
+											to="/"
+											movies={movies}
+											user={user}
+										/>
 									) : (
 										<Col
 											md={5}
@@ -104,6 +108,30 @@ export const MainView = () => {
 							}
 						/>
 
+						{/* trying to add user profile here */}
+
+						<Route
+							path="/profileview"
+							element={
+								<>
+									{!user ? (
+										<Navigate
+											to="/login"
+											replace
+										/>
+									) : (
+										<div>
+											<ProfileView
+												user={user}
+												movies={movies}
+												token={token}
+											/>
+										</div>
+									)}
+								</>
+							}
+						/>
+
 						<Route
 							path="/movies/:movieId"
 							element={
@@ -121,7 +149,11 @@ export const MainView = () => {
 											md={8}
 											className="mt-5 mb-5"
 										>
-											<MovieView movies={movies} />
+											<MovieView
+												movies={movies}
+												user={user}
+												token={token}
+											/>
 										</Col>
 									)}
 								</>
@@ -146,7 +178,11 @@ export const MainView = () => {
 													md={3}
 													className="p-3"
 												>
-													<MovieCard movieData={movie} />
+													<MovieCard
+														movieData={movie}
+														user={user}
+														token={token}
+													/>
 												</Col>
 											))}
 										</>

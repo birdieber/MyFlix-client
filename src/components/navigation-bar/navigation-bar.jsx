@@ -10,8 +10,8 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
 		>
 			<Container
 				style={{
-					"margin-left": "42px",
-					"margin-right": "42px",
+					marginLeft: "42px",
+					marginRight: "42px",
 					padding: "5px",
 				}}
 			>
@@ -24,14 +24,9 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav className="me-auto">
-						{/* <NavDropdown
-							title="Dropdown"
-							id="basic-nav-dropdown"
-						> */}
 						{/* if user is not logged in */}
 						{!user && (
 							<>
-								{" "}
 								<Nav.Link
 									as={Link}
 									to="/login"
@@ -49,7 +44,6 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
 						{/* if user is logged in */}
 						{user && (
 							<>
-								{" "}
 								<Nav.Link
 									as={Link}
 									to="/"
@@ -57,12 +51,17 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
 									Home
 								</Nav.Link>
 								<Nav.Link
-									className=""
+									as={Link}
+									to="/profileview"
+								>
+									Profile
+								</Nav.Link>
+								<Nav.Link
 									Logout
 									onClick={onLoggedOut}
 								>
 									Logout
-								</Nav.Link>{" "}
+								</Nav.Link>
 							</>
 						)}
 					</Nav>
