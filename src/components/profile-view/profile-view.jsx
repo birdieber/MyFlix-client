@@ -3,8 +3,9 @@ import { Col, Card, Container, Button, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { MovieCard } from "../movie-card/movie-card";
+import { ProfileUpdateView } from "../profile-update-view/profile-update-view";
 
-export const ProfileView = ({ user, movies, token }) => {
+export const ProfileView = ({ user, movies, token, onLoggedOut }) => {
 	const [favoriteMovies, setFavoriteMovies] = useState([]);
 
 	useEffect(() => {
@@ -36,27 +37,21 @@ export const ProfileView = ({ user, movies, token }) => {
 	};
 
 	const deleteAccount = () => {
-		// Implement the delete account logic here
-		// ...
-	};
-
-	const handleRemoveFromFavorites = (movieId) => {
-		fetch(
-			`https://shrouded-ocean-05047.herokuapp.com/users/${user.username}/movies/${movieId}`,
-			{ method: "DELETE", headers: { Authorization: `Bearer ${token}` } }
-		)
+		console.log("deleting");
+		fetch(`https://shrouded-ocean-05047.herokuapp.com/users/${user.username}`, {
+			method: "DELETE",
+			headers: { Authorization: `Bearer ${token}` },
+		})
 			.then((response) => {
 				if (response.ok) {
-					alert("Successfully removed from favorites");
-					setFavoriteMovies((prevMovies) =>
-						prevMovies.filter((movie) => movie !== movieId)
-					);
+					alert("Your account has been deleted. Good Bye!");
+					onLoggedOut();
 				} else {
-					throw new Error("Failed to remove from favorites");
+					alert("Could not delete account");
 				}
 			})
-			.catch((error) => {
-				alert(error.message);
+			.catch((e) => {
+				alert(e);
 			});
 	};
 
@@ -64,37 +59,48 @@ export const ProfileView = ({ user, movies, token }) => {
 		favoriteMovies.includes(movie.id)
 	);
 
+	const handleProfileUpdate = () => {
+		// Fetch user details again after profile update
+		fetchUserDetails();
+	};
+
 	return (
 		<div>
-			<Link to={`/`}>
-				<Button
-					variant="secondary"
-					className="mt-3 rounded"
-					style={{ width: "10%" }}
-				>
-					Back
-				</Button>
-			</Link>
-			<Card className="mt-2 mb-3">
-				<Card.Body>
-					<Card.Title>User Profile</Card.Title>
-					<p>User: {user.username}</p>
-					<p>Email: {user.email}</p>
-					<p>Birthday: {user.birthday}</p>
-				</Card.Body>
-				<Button
-					variant="danger"
-					onClick={handleDeleteAccount}
-				>
-					Delete user account
-				</Button>
-			</Card>
+			<Row className="mt-3 ">
+				<Col md={8}>
+					<Card style={{ height: "100%" }}>
+						<Card.Body>
+							<Card.Title>User Profile</Card.Title>
+							<p>User: {user.username}</p>
+							<p>Email: {user.email}</p>
+							<p>
+								Birthday:{" "}
+								{user.birthday.slice(0, 10).split("-").reverse().join("-")}
+							</p>
+							<Button
+								variant="danger"
+								onClick={handleDeleteAccount}
+							>
+								Delete user account
+							</Button>
+						</Card.Body>
+					</Card>
+				</Col>
+				<Col md={4}>
+					<ProfileUpdateView
+						user={user}
+						token={token}
+						onProfileUpdate={handleProfileUpdate}
+					/>
+				</Col>
+			</Row>
 			<Row>
 				<Col
 					md={12}
 					style={{ width: "100%" }}
+					className="mt-5"
 				>
-					<h2>Favourite Movies</h2>
+					<h2 className="text-white">Favourite Movies</h2>
 				</Col>
 			</Row>
 			<Row>
@@ -117,9 +123,8 @@ export const ProfileView = ({ user, movies, token }) => {
 							<MovieCard
 								user={user}
 								movieData={movie}
-								md={3}
+								md={5}
 								token={token}
-								onRemoveFromFavorites={handleRemoveFromFavorites}
 							/>
 						</Col>
 					))
@@ -128,5 +133,3 @@ export const ProfileView = ({ user, movies, token }) => {
 		</div>
 	);
 };
-
-export default ProfileView;

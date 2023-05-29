@@ -1,20 +1,18 @@
 import { useState, useEffect } from "react";
+import { AddFavorite } from "../add-favorite/add-favorite";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { ProfileView } from "../profile-view/profile-view";
-import AddFavorite from "../add-favorite/add-favorite";
 import "./main-view.scss";
 
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { Route } from "react-router";
-
+// import { Route } from "react-router";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import NavigationBar from "../navigation-bar/navigation-bar";
 
 export const MainView = () => {
 	const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -34,6 +32,9 @@ export const MainView = () => {
 			.then((response) => response.json())
 			.then((data) => {
 				console.log("movies from api:", data);
+				console.log(
+					"stored user: " + storedUser.username + "and pass: " + storedToken
+				);
 				const moviesFromApi = data.map((doc) => {
 					return {
 						id: doc._id,
@@ -125,6 +126,11 @@ export const MainView = () => {
 												user={user}
 												movies={movies}
 												token={token}
+												onLoggedOut={() => {
+													setUser(null);
+													setToken(null);
+													localStorage.clear();
+												}}
 											/>
 										</div>
 									)}
@@ -179,8 +185,9 @@ export const MainView = () => {
 													className="p-3"
 												>
 													<MovieCard
-														movieData={movie}
 														user={user}
+														movieData={movie}
+														md={3}
 														token={token}
 													/>
 												</Col>

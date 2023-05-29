@@ -7,9 +7,9 @@ import "./movie-card.scss";
 import { Link } from "react-router-dom";
 // // import { FaThumbsUp } from "react-icons/fa";
 // import { ProfileView } from "../profile-view/profile-view";
-import AddFavorite from "../add-favorite/add-favorite";
+import { AddFavorite } from "../add-favorite/add-favorite";
 
-export const MovieCard = ({ movieData, user, movie, token }) => {
+export const MovieCard = ({ movieData, user, token }) => {
 	// console.log("NEW" + movieData.title);
 	console.log("favemovielist?" + user.favoriteMovies);
 	// console.log("NE?W" + AddFavorite);
@@ -25,7 +25,6 @@ export const MovieCard = ({ movieData, user, movie, token }) => {
 			<Card.Img
 				variant="top"
 				src={movieData.image}
-				style={{ width: "100%" }}
 			/>
 			<Card.Body>
 				<Card.Title>{movieData.title}</Card.Title>

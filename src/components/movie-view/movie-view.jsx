@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Container, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import AddFavorite from "../add-favorite/add-favorite";
+import { AddFavorite } from "../add-favorite/add-favorite";
 
 // import { FaThumbsUp } from "react-icons/fa";
 
@@ -26,19 +26,14 @@ export const MovieView = ({ movies, user, movieData, token }) => {
 					<Link to={`/`}>
 						<Button
 							variant="danger"
-							className="mt-3"
+							// className="mt-3"
 							style={{ width: "20%" }}
 						>
 							Back
 						</Button>
 					</Link>
-
-					<AddFavorite
-						user={user}
-						movieData={movie}
-						token={token}
-					/>
 				</div>
+
 				<div>
 					<img
 						src={movie.image}

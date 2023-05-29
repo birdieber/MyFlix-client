@@ -1,54 +1,48 @@
-//FAVORITE IS DONE!!!
-
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Button } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { MdFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
 
-const AddFavorite = ({ user, movieData, token }) => {
-	const [isAdding, setIsAdding] = useState(false);
+export const AddFavorite = ({ user, movieData, token }) => {
+	const [isFavorite, setIsFavorite] = useState(false);
 
 	useEffect(() => {
-		const storedIsAdding = localStorage.getItem(
-			`${user.username}_${movieData.id}`
-		);
-		setIsAdding(storedIsAdding === "true");
-	}, [user.username, movieData.id]);
-
-	const handleAddToFavorites = (event) => {
-		event.preventDefault();
-
-		if (isAdding) {
-			// Remove the movie from favorites
-			fetch(
-				`https://shrouded-ocean-05047.herokuapp.com/users/${user.username}/movies/${movieData.id}`,
-				{ method: "DELETE", headers: { Authorization: `Bearer ${token}` } }
-			)
-				.then((response) => {
-					if (response.ok) {
-						// alert("Successfully removed from favorites");
-						setIsAdding(false);
-						localStorage.removeItem(`${user.username}_${movieData.id}`);
-					} else {
-						throw new Error("Failed to remove from favorites");
-					}
-				})
-				.catch((error) => {
-					alert(error.message);
-				});
+		if (user.favoriteMovies.includes(movieData.id)) {
+			setIsFavorite(false);
+			console.log(user.favoriteMovies);
 		} else {
-			// Add the movie to favorites
+			setIsFavorite(true);
+		}
+	}, [user, movieData.id]);
+
+	const handleToggleFavorite = () => {
+		if (isFavorite) {
+			// Add to favorites
 			fetch(
 				`https://shrouded-ocean-05047.herokuapp.com/users/${user.username}/movies/${movieData.id}`,
 				{ method: "POST", headers: { Authorization: `Bearer ${token}` } }
 			)
 				.then((response) => {
 					if (response.ok) {
-						// alert("Successfully added to favorites");
-						setIsAdding(true);
-						localStorage.setItem(`${user.username}_${movieData.id}`, "true");
+						setIsFavorite(false);
 					} else {
 						throw new Error("Failed to add to favorites");
+					}
+				})
+				.catch((error) => {
+					alert(error.message);
+				});
+		} else {
+			// Remove from favorites
+			fetch(
+				`https://shrouded-ocean-05047.herokuapp.com/users/${user.username}/movies/${movieData.id}`,
+				{ method: "DELETE", headers: { Authorization: `Bearer ${token}` } }
+			)
+				.then((response) => {
+					if (response.ok) {
+						setIsFavorite(true);
+					} else {
+						throw new Error("Failed to remove from favorites");
 					}
 				})
 				.catch((error) => {
@@ -58,14 +52,25 @@ const AddFavorite = ({ user, movieData, token }) => {
 	};
 
 	return (
-		<Button
-			onClick={handleAddToFavorites}
+		<div
+			onClick={handleToggleFavorite}
 			disabled={!token}
-			className="border-0"
-			style={{ width: "12%", position: "absolute" }}
+			style={{
+				position: "absolute",
+				top: "5px",
+				left: "5px",
+			}}
 		>
-			{isAdding ? <MdFavorite /> : <MdOutlineFavoriteBorder />}
-		</Button>
+			{isFavorite ? (
+				<Button variant="secondary">
+					<MdOutlineFavoriteBorder />
+				</Button>
+			) : (
+				<Button variant="danger">
+					<MdFavorite />
+				</Button>
+			)}
+		</div>
 	);
 };
 
@@ -74,5 +79,3 @@ AddFavorite.propTypes = {
 	movieData: PropTypes.object.isRequired,
 	token: PropTypes.string,
 };
-
-export default AddFavorite;
