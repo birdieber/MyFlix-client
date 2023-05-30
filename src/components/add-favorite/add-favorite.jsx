@@ -22,11 +22,15 @@ export const AddFavorite = ({ user, movieData, token }) => {
 				`https://shrouded-ocean-05047.herokuapp.com/users/${user.username}/movies/${movieData.id}`,
 				{ method: "POST", headers: { Authorization: `Bearer ${token}` } }
 			)
-				.then((response) => {
-					if (response.ok) {
-						setIsFavorite(false);
+				.then((response) => response.json())
+				.then((data) => {
+					console.log(data);
+					setIsFavorite(false);
+					if (data) {
+						localStorage.setItem("user", JSON.stringify(data));
+						location.reload();
 					} else {
-						throw new Error("Failed to add to favorites");
+						alert("Failed to add to favorites");
 					}
 				})
 				.catch((error) => {
@@ -38,11 +42,15 @@ export const AddFavorite = ({ user, movieData, token }) => {
 				`https://shrouded-ocean-05047.herokuapp.com/users/${user.username}/movies/${movieData.id}`,
 				{ method: "DELETE", headers: { Authorization: `Bearer ${token}` } }
 			)
-				.then((response) => {
-					if (response.ok) {
-						setIsFavorite(true);
+				.then((response) => response.json())
+				.then((data) => {
+					console.log(data);
+					setIsFavorite(true);
+					if (data) {
+						localStorage.setItem("user", JSON.stringify(data));
+						location.reload();
 					} else {
-						throw new Error("Failed to remove from favorites");
+						alert("Failed to remove to favorites");
 					}
 				})
 				.catch((error) => {
