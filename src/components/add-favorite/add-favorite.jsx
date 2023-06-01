@@ -28,7 +28,7 @@ export const AddFavorite = ({ user, movieData, token }) => {
 					setIsFavorite(false);
 					if (data) {
 						localStorage.setItem("user", JSON.stringify(data));
-						location.reload();
+						//location.reload();
 					} else {
 						alert("Failed to add to favorites");
 					}
@@ -48,7 +48,7 @@ export const AddFavorite = ({ user, movieData, token }) => {
 					setIsFavorite(true);
 					if (data) {
 						localStorage.setItem("user", JSON.stringify(data));
-						location.reload();
+						//location.reload();
 					} else {
 						alert("Failed to remove to favorites");
 					}
